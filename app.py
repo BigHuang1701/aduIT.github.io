@@ -16,41 +16,44 @@ if uploaded_file:
     st.subheader("🔍 Preview of Dataset")
     st.dataframe(df.head())
 
-    # --- Plot 1: Distribution of Satisfaction Level ---
-    if "SatisfactionLevel" in df.columns:
-        st.subheader("1️⃣ Distribution of Satisfaction Level")
+    # --- Plot 1: Distribution of Customer Satisfaction ---
+    if "CustomerSatisfaction" in df.columns:
+        st.subheader("1️⃣ Distribution of Customer Satisfaction")
         fig1, ax1 = plt.subplots()
-        sns.histplot(df["SatisfactionLevel"], kde=True, ax=ax1, color='skyblue')
+        sns.histplot(df["CustomerSatisfaction"], kde=True, ax=ax1, color='skyblue')
         st.pyplot(fig1)
-        st.markdown("This chart shows how customers are distributed in terms of satisfaction level.")
+        st.markdown("Biểu đồ này thể hiện mức độ hài lòng của khách hàng.")
 
-    # --- Plot 2: Age Distribution ---
-    if "Age" in df.columns:
-        st.subheader("2️⃣ Distribution of Age")
+    # --- Plot 2: Customer Age Distribution ---
+    if "CustomerAge" in df.columns:
+        st.subheader("2️⃣ Distribution of Customer Age")
         fig2, ax2 = plt.subplots()
-        sns.histplot(df["Age"], bins=20, kde=True, ax=ax2, color='orange')
+        sns.histplot(df["CustomerAge"], bins=20, kde=True, ax=ax2, color='orange')
         st.pyplot(fig2)
-        st.markdown("This chart displays the age distribution of customers.")
+        st.markdown("Biểu đồ này thể hiện phân bố độ tuổi khách hàng.")
 
-    # --- Plot 3: Spending Score by Age ---
-    if "Age" in df.columns and "SpendingScore" in df.columns:
-        st.subheader("3️⃣ Age vs Spending Score")
+    # --- Plot 3: Purchase Frequency by Age ---
+    if "CustomerAge" in df.columns and "PurchaseFrequency" in df.columns:
+        st.subheader("3️⃣ Age vs Purchase Frequency")
         fig3, ax3 = plt.subplots()
-        sns.scatterplot(data=df, x="Age", y="SpendingScore", hue="Gender", ax=ax3)
+        if "CustomerGender" in df.columns:
+            sns.scatterplot(data=df, x="CustomerAge", y="PurchaseFrequency", hue="CustomerGender", ax=ax3)
+        else:
+            sns.scatterplot(data=df, x="CustomerAge", y="PurchaseFrequency", ax=ax3)
         st.pyplot(fig3)
-        st.markdown("This scatter plot shows how spending score varies by age and gender.")
+        st.markdown("Biểu đồ này thể hiện tần suất mua hàng theo độ tuổi và giới tính.")
 
     # --- Plot 4: Correlation Heatmap ---
     st.subheader("4️⃣ Correlation Heatmap")
     fig4, ax4 = plt.subplots()
     sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm', ax=ax4)
     st.pyplot(fig4)
-    st.markdown("This heatmap displays the correlation between numerical features.")
+    st.markdown("Biểu đồ heatmap thể hiện mối tương quan giữa các biến số.")
 
-    # --- Plot 5: Annual Income vs Spending Score ---
-    if "AnnualIncome" in df.columns and "SpendingScore" in df.columns:
-        st.subheader("5️⃣ Annual Income vs Spending Score")
+    # --- Plot 5: Product Price vs Purchase Frequency ---
+    if "ProductPrice" in df.columns and "PurchaseFrequency" in df.columns:
+        st.subheader("5️⃣ Product Price vs Purchase Frequency")
         fig5, ax5 = plt.subplots()
-        sns.scatterplot(data=df, x="AnnualIncome", y="SpendingScore", ax=ax5, color="green")
+        sns.scatterplot(data=df, x="ProductPrice", y="PurchaseFrequency", ax=ax5, color="green")
         st.pyplot(fig5)
-        st.markdown("This chart helps identify the relationship between income and spending score.")
+        st.markdown("Biểu đồ này giúp nhận diện mối quan hệ giữa giá sản phẩm và tần suất mua hàng.")
