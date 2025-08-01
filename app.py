@@ -16,48 +16,48 @@ if not os.path.exists(csv_file_path):
 else:
     df = pd.read_csv(csv_file_path)
 
-    st.success("✅ Loaded data from 'customer_data.csv'")
+    st.success("✅ Loaded data from 'consumer_electronics_sales_data.csv' successfully!")
     st.subheader("🔍 Data Preview")
     st.dataframe(df.head())
 
     # Tabs for individual charts
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "📌 Satisfaction Level",
+        "📌 Customer Satisfaction",
         "👤 Age Distribution",
-        "💸 Income vs Spending",
+        "💸 Price vs Purchase Frequency",
         "🔥 Correlation Heatmap",
-        "📈 Age vs Spending (Gender)"
+        "📈 Age vs Purchase Frequency (Gender)"
     ])
 
     with tab1:
-        if "SatisfactionLevel" in df.columns:
-            st.header("Distribution of Satisfaction Level")
+        if "CustomerSatisfaction" in df.columns:
+            st.header("Distribution of Customer Satisfaction")
             fig, ax = plt.subplots()
-            sns.histplot(df["SatisfactionLevel"], kde=True, ax=ax, color="skyblue")
-            ax.set_title("Distribution of Satisfaction Level")
+            sns.histplot(df["CustomerSatisfaction"], kde=True, ax=ax, color="skyblue")
+            ax.set_title("Distribution of Customer Satisfaction")
             st.pyplot(fig)
         else:
-            st.warning("Column 'SatisfactionLevel' not found.")
+            st.warning("Column 'CustomerSatisfaction' not found.")
 
     with tab2:
-        if "Age" in df.columns:
-            st.header("Age Distribution")
+        if "CustomerAge" in df.columns:
+            st.header("Customer Age Distribution")
             fig, ax = plt.subplots()
-            sns.histplot(df["Age"], kde=True, ax=ax, color="orange")
-            ax.set_title("Distribution of Age")
+            sns.histplot(df["CustomerAge"], kde=True, ax=ax, color="orange")
+            ax.set_title("Distribution of Customer Age")
             st.pyplot(fig)
         else:
-            st.warning("Column 'Age' not found.")
+            st.warning("Column 'CustomerAge' not found.")
 
     with tab3:
-        if "AnnualIncome" in df.columns and "SpendingScore" in df.columns:
-            st.header("Annual Income vs Spending Score")
+        if "ProductPrice" in df.columns and "PurchaseFrequency" in df.columns:
+            st.header("Product Price vs Purchase Frequency")
             fig, ax = plt.subplots()
-            sns.scatterplot(data=df, x="AnnualIncome", y="SpendingScore", ax=ax, color="green")
-            ax.set_title("Income vs Spending")
+            sns.scatterplot(data=df, x="ProductPrice", y="PurchaseFrequency", ax=ax, color="green")
+            ax.set_title("Product Price vs Purchase Frequency")
             st.pyplot(fig)
         else:
-            st.warning("Columns 'AnnualIncome' or 'SpendingScore' not found.")
+            st.warning("Columns 'ProductPrice' or 'PurchaseFrequency' not found.")
 
     with tab4:
         st.header("Correlation Heatmap")
@@ -67,11 +67,11 @@ else:
         st.pyplot(fig)
 
     with tab5:
-        if "Age" in df.columns and "SpendingScore" in df.columns and "Gender" in df.columns:
-            st.header("Age vs Spending Score (Colored by Gender)")
+        if "CustomerAge" in df.columns and "PurchaseFrequency" in df.columns and "CustomerGender" in df.columns:
+            st.header("Age vs Purchase Frequency (Colored by Gender)")
             fig, ax = plt.subplots()
-            sns.scatterplot(data=df, x="Age", y="SpendingScore", hue="Gender", ax=ax)
-            ax.set_title("Age vs Spending by Gender")
+            sns.scatterplot(data=df, x="CustomerAge", y="PurchaseFrequency", hue="CustomerGender", ax=ax)
+            ax.set_title("Age vs Purchase Frequency by Gender")
             st.pyplot(fig)
         else:
-            st.warning("Columns 'Age', 'SpendingScore' or 'Gender' not found.")
+            st.warning("Columns 'CustomerAge', 'PurchaseFrequency' or 'CustomerGender' not found.")
