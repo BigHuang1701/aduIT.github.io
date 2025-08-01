@@ -8,19 +8,15 @@ st.set_page_config(page_title="Customer Data Analyzer", layout="wide")
 
 st.title("📊 Customer Data Analyzer with Tabs")
 
-# Upload file
-uploaded_file = st.file_uploader("📂 Upload your CSV file", type=["csv"])
+# 🔹 Đọc CSV mặc định từ local
+csv_file_path = "consumer_electronics_sales_data.csv"
 
-if uploaded_file:
-    # Save uploaded CSV to a temporary location
-    temp_file_path = os.path.join("uploaded_data.csv")
-    with open(temp_file_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
-    
-    # Load the CSV
-    df = pd.read_csv(temp_file_path)
+if not os.path.exists(csv_file_path):
+    st.error("❌ File 'customer_data.csv' not found. Please place it in the same folder as this app.")
+else:
+    df = pd.read_csv(csv_file_path)
 
-    st.success("✅ File uploaded and saved as 'uploaded_data.csv'")
+    st.success("✅ Loaded data from 'customer_data.csv'")
     st.subheader("🔍 Data Preview")
     st.dataframe(df.head())
 
